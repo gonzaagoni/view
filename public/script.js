@@ -167,7 +167,7 @@ fetch("/microfono",{
 // REDIRECCION
 // =======================
 
-// window.location.href =
-// "https://instagram.com"
+window.location.href =
+"https://instagram.com"
 
 }
